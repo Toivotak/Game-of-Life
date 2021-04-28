@@ -1,6 +1,11 @@
 #pragma once
 
-#if defined _WIN32
+#include <iostream>
+
+namespace support {
+
+#if defined (_WIN32)
+
 #include <windows.h>
 
 inline void clearScreen()                                               
@@ -40,8 +45,9 @@ inline void clearScreen()
     SetConsoleCursorPosition(hStdOut, homeCoords);
 }
 
-inline bool keyIsPressed()                                              // Setup for 'E'
+inline bool keyIsPressed()                                              // Setup for termination using 'E'
 {
+    std::cout << "\nPress 'E' to terminate";
     if (GetAsyncKeyState(0x45))
     {
         return true;
@@ -51,23 +57,16 @@ inline bool keyIsPressed()                                              // Setup
 
 #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
 
-#include <unistd.h>
-#include <term.h>
+#include <cstdlib>
 
-inline void ClearScreen()
+inline void clearScreen()
 {
-    if (!cur_term)
-    {
-        int result;
-        setupterm(NULL, STDOUT_FILENO, &result);
-        if (result <= 0) return;
-    }
-
-    putp(tigetstr("clear"));
+    std::system("clear");
 }
 
-inline bool keyIsPressed()                                              //This need work
+inline bool keyIsPressed()                                              //This needs work, mayby separed thread?
 {
+    std::cout << "\Termination not working sorry. Kill terminal manually";
     return false;
 }
 
@@ -78,7 +77,7 @@ inline int isInteger(int start, int end) { 	                                    
     while (true) {
         if (std::cin >> x)                                                      // is number
         {	                                                
-            if (start <= x && x <= end)                                         // not a valid number
+            if (start <= x && x <= end)                                         // if a valid number
             {	                                    
                 break; 	                                                        // valid number
             }
@@ -99,3 +98,5 @@ inline int isInteger(int start, int end) { 	                                    
     }
     return x;
 }
+
+} //end of namespace

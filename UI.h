@@ -3,7 +3,6 @@
 #include <iostream>
 #include <chrono> 
 #include <thread>
-#include <windows.h>
 
 #include "Board.h"
 #include "SupportFuctions.h"
