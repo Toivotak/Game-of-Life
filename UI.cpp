@@ -7,13 +7,25 @@ UI::UI() : m_board{ nullptr }
 void UI::startGame()
 {
 	std::cout << "Welcome to game of life\n";
-	std::cout << "What is the height of your grid? ";
-	int heigth = support::isInteger(3, 50);                        // Small grid size setup, no smaler than 3x3
-	std::cout << "What is the width of your grid?  ";
-	int width = support::isInteger(3, 50);
-	m_board = new Board(heigth, width);
+	std::cout << "Do you want a custom grid?\nEnter (c) for custom any other key for default 10x10 grid -> ";
+	char select{ };
+	std::cin >> select;
+	int heigth{ 10 };
+	int width{ 10 };
+	if (select == 'c' || select == 'C') {
+		std::cout << "What is the height of your grid? ";
+		heigth = support::isInteger(3, 50);                        // Small grid size setup, no smaler than 3x3
+		std::cout << "What is the width of your grid?  ";
+		width = support::isInteger(3, 50);
+		m_board = new Board(heigth, width);
+	}
+	else
+	{
+		m_board = new Board(heigth, width);
+	}
 	m_board->init();
-	std::cout << "Add Cels to game\n";
+	m_board->print();
+	std::cout << "\nAdd Cels to game\n";
 	while (true) {
 		std::cout << "\nGive x cordinate or -1 to end setup -> ";
 		int x = support::isInteger(-1, heigth - 1);
